@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
+    <system systemId="http://www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL" uri="src/www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso.wsdl"/>
+    <system systemId="http://www.webservicex.com/geoipservice.asmx?WSDL" uri="src/www.webservicex.com/geoipservice.asmx.wsdl"/>
+</catalog>

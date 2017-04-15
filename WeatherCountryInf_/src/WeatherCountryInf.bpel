@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="WeatherCountryInf"
+    targetNamespace="http://enterprise.netbeans.org/bpel/CountryDetailInf/countryDetailInf"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/CountryDetailInf/countryDetailInf"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxxf="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/XPathFunctions" xmlns:sxnmp="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/NMProperty" xmlns:ns0="http://www.oorsprong.org/websamples.countryinfo" xmlns:ns1="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" xmlns:ns2="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" xmlns:ns3="http://www.webservicex.net/">
+    <import namespace="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" location="Custumer.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" location="CallBack.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" location="AsyncWeather.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/CountryInfoService.wsoWrapper" location="CountryInfoService.wsoWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://www.oorsprong.org/websamples.countryinfo" location="http://www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WizardCorrelationProperties" location="WizardCorrelationProperties.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/geoipservice.asmxWrapper" location="geoipservice.asmxWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://www.webservicex.net/" location="http://www.webservicex.com/geoipservice.asmx?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="CountryInfo" xmlns:tns="http://enterprise.netbeans.org/bpel/CountryInfoService.wsoWrapper" partnerLinkType="tns:CountryInfoServiceSoapTypeLinkType" partnerRole="CountryInfoServiceSoapTypeRole"/>
+        <partnerLink name="AsyncWeather" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" partnerLinkType="tns:AsyncWeather" partnerRole="AsyncWeatherPortTypeRole"/>
+        <partnerLink name="GeoIp" xmlns:tns="http://enterprise.netbeans.org/bpel/geoipservice.asmxWrapper" partnerLinkType="tns:GeoIPServiceSoapLinkType" partnerRole="GeoIPServiceSoapRole"/>
+        <partnerLink name="Custumer" xmlns:tns="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" partnerLinkType="tns:Custumer" myRole="CustumerPortTypeRole"/>
+        <partnerLink name="CallbBack" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" partnerLinkType="tns:CallBack" myRole="CallBackPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="GetGeoIPOut" xmlns:tns="http://www.webservicex.net/" messageType="tns:GetGeoIPSoapOut"/>
+        <variable name="GetGeoIPIn" xmlns:tns="http://www.webservicex.net/" messageType="tns:GetGeoIPSoapIn"/>
+        <variable name="Fault1FaulTimeOut" messageType="ns2:CustumerOperationFault"/>
+        <variable name="CallBackOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" messageType="tns:CallBackOperationRequest"/>
+        <variable name="CustumerOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" messageType="tns:CustumerOperationResponse"/>
+        <variable name="AsyncWeatherOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" messageType="tns:AsyncWeatherOperationRequest"/>
+        <variable name="FullCountryInfoOut" xmlns:tns="http://www.oorsprong.org/websamples.countryinfo" messageType="tns:FullCountryInfoSoapResponse"/>
+        <variable name="FullCountryInfoIn" xmlns:tns="http://www.oorsprong.org/websamples.countryinfo" messageType="tns:FullCountryInfoSoapRequest"/>
+       <variable name="CustumerOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" messageType="tns:CustumerOperationRequest"/>
+    </variables>
+    <correlationSets>
+        <correlationSet name="wzrd_set_InvokeAsync_OnMessage_Pick1_CallBackOperation" properties="ns1:wzrd_prop_string_string"/>
+    </correlationSets>
+    <faultHandlers>
+        <catch faultName="ns2:to_fault">
+            <sequence name="Sequence8">
+                <assign name="AssignTimeOut">
+                    <copy>
+                            <from>'Time Out'</from>
+                                <to variable="Fault1FaulTimeOut" part="fault_msg"/>
+                        </copy>
+                </assign>
+                <reply name="ReplyTimeOut" partnerLink="Custumer" operation="CustumerOperation" portType="ns2:CustumerPortType" faultName="ns2:to_fault" variable="Fault1FaulTimeOut"/>
+            </sequence>
+        </catch>
+    </faultHandlers>
+    <sequence>
+        <receive name="Receive" createInstance="yes" partnerLink="Custumer" operation="CustumerOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" portType="tns:CustumerPortType" variable="CustumerOperationIn"/>
+        <assign name="AssignIP">
+            <copy>
+                <from variable="CustumerOperationIn" part="IP_address"/>
+                <to variable="AsyncWeatherOperationIn" part="IP_addressAsy"/>
+            </copy>
+            <copy>
+                <from>sxxf:getBPId()</from>
+                <to variable="AsyncWeatherOperationIn" part="correlationId"/>
+            </copy>
+           <copy>
+                <from variable="CustumerOperationIn" part="IP_address"/>
+                <to>$GetGeoIPIn.parameters/ns3:IPAddress</to>
+            </copy>
+            
+        </assign>
+        <flow name="Flow1">
+            <sequence name="FlowSequence1">
+                <invoke name="InvokeAsync" partnerLink="AsyncWeather" operation="AsyncWeatherOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" portType="tns:AsyncWeatherPortType" inputVariable="AsyncWeatherOperationIn">
+                    <correlations>
+                        <correlation set="wzrd_set_InvokeAsync_OnMessage_Pick1_CallBackOperation" initiate="yes"/>
+                    </correlations>
+                </invoke>
+                <pick name="Pick1" createInstance="no">
+                    <onMessage partnerLink="CallbBack" operation="CallBackOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" portType="tns:CallBackPortType" variable="CallBackOperationIn">
+                        <correlations>
+                            <correlation set="wzrd_set_InvokeAsync_OnMessage_Pick1_CallBackOperation" initiate="no"/>
+                        </correlations>
+                        <sequence name="Sequence2">
+                            <scope name="Scope1">
+                                
+    <faultHandlers>
+        <catch faultName="ns2:A_reply_fault">
+            <assign name="AssignInvalidOut">
+             <copy>
+              <from>'Invalid Input!!'</from>
+              <to variable="CustumerOperationOut" part="Weather"/>
+             </copy>
+            </assign>
+        </catch>
+    </faultHandlers>
+    <if name="If1">
+                                    <condition>'Unable to find any matching weather location to the query submitted!' = $CallBackOperationIn.part1</condition>
+                                    <throw name="Throw2" faultName="ns2:A_reply_fault" />
+                                    <else>
+                                        <assign name="AssignWeatherOut">
+                                            <copy>
+                                                    <from variable="CallBackOperationIn" part="part1"/>
+                                                        <to variable="CustumerOperationOut" part="Weather"/>
+                                                </copy>
+                                        </assign>
+                                    </else>
+                                </if>
+                            </scope>
+                        </sequence>
+                    </onMessage>
+                    <onAlarm>
+                        <for>'P0Y0M0DT0H0M10.0S'</for>
+                        <throw name="Throw1" faultName="ns2:to_fault" />
+                    </onAlarm>
+                </pick>
+            </sequence>
+            <sequence name="FlowSequence">
+                <invoke name="InvokeGeoIP" partnerLink="GeoIp" operation="GetGeoIP" xmlns:tns="http://www.webservicex.net/" portType="tns:GeoIPServiceSoap" inputVariable="GetGeoIPIn" outputVariable="GetGeoIPOut"/>
+                <scope name="Scope2">
+                    <faultHandlers>
+                        <catch faultName="ns2:B_reply_fault">
+                            <assign name="AssignInvalidISO">
+                                <copy>
+                                    <from>'Invalid Input !'</from>
+                                    <to variable="CustumerOperationOut" part="Country_Info"/>
+                                </copy>
+                            </assign>
+                        </catch>
+                    </faultHandlers>
+                    <sequence name="Sequence6">
+                        <if name="If4">
+                            <condition>$GetGeoIPOut.parameters/ns3:GetGeoIPResult/ns3:ReturnCodeDetails = 'Invalid IP address'</condition>
+                            <throw name="Throw3" faultName="ns2:B_reply_fault"/>
+                            <else>
+                                <sequence name="Sequence7">
+                                    <assign name="AssignCountryISO">
+                                        <copy>
+                                            <from>$GetGeoIPOut.parameters/ns3:GetGeoIPResult/ns3:CountryCode</from>
+                                                <to>$FullCountryInfoIn.parameters/ns0:sCountryISOCode</to>
+                                        </copy>
+                                    </assign>
+                                    <invoke name="InvokeCountryInfo" partnerLink="CountryInfo" operation="FullCountryInfo" portType="ns0:CountryInfoServiceSoapType" inputVariable="FullCountryInfoIn" outputVariable="FullCountryInfoOut"/>
+                                    <assign name="AssignCountryInfoOut">
+                                        <copy>
+                                                <from>$FullCountryInfoOut.parameters/ns0:FullCountryInfoResult</from>
+                                                    <to variable="CustumerOperationOut" part="Country_Info"/>
+                                            </copy>
+                                    </assign>
+                                </sequence>
+                            </else>
+                        </if>
+                    </sequence>
+                </scope>
+            </sequence>
+        </flow>
+     <reply name="Reply" partnerLink="Custumer" operation="CustumerOperation" portType="ns2:CustumerPortType" variable="CustumerOperationOut"/>
+    </sequence>
+</process>

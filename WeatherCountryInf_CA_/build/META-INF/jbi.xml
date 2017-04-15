@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns1="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" xmlns:ns2="http://enterprise.netbeans.org/bpel/CountryDetailInf/countryDetailInf" xmlns:ns3="http://enterprise.netbeans.org/bpel/CountryDetailInf/ProxyWeather" xmlns:ns4="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" xmlns:ns5="http://www.oorsprong.org/websamples.countryinfo" xmlns:ns6="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/WeatherOnline" xmlns:ns7="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" xmlns:ns8="http://www.webservicex.net/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
+    <service-assembly>
+        <identification>
+            <name>WeatherCountryInf_CA_</name>
+            <description>Represents the Service Assembly of WeatherCountryInf_CA_</description>
+        </identification>
+        <service-unit>
+            <identification>
+                <name>WeatherCountryInf_CA_-WeatherCountryInf_</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>WeatherCountryInf_.jar</artifacts-zip>
+                <component-name>sun-bpel-engine</component-name>
+            </target>
+        </service-unit>
+        <service-unit>
+            <identification>
+                <name>WeatherCountryInf_CA_-sun-http-binding</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>sun-http-binding.jar</artifacts-zip>
+                <component-name>sun-http-binding</component-name>
+            </target>
+        </service-unit>
+        <service-unit>
+            <identification>
+                <name>WeatherCountryInf_CA_-sun-rest-binding</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>sun-rest-binding.jar</artifacts-zip>
+                <component-name>sun-rest-binding</component-name>
+            </target>
+        </service-unit>
+        <connections>
+            <connection>
+                <consumer endpoint-name="CallBackPort" service-name="ns1:CallBackService"/>
+                <provider endpoint-name="CallBackPortTypeRole_myRole" service-name="ns2:CallbBack"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="CallBackPortTypeRole_partnerRole" service-name="ns3:CallBack"/>
+                <provider endpoint-name="CallBackPortTypeRole_myRole" service-name="ns2:CallbBack"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="AsyncWeatherPort" service-name="ns4:AsyncWeatherService"/>
+                <provider endpoint-name="AsyncWeatherPortTypeRole_myRole" service-name="ns3:AsyncWeather"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="AsyncWeatherPortTypeRole_partnerRole" service-name="ns2:AsyncWeather"/>
+                <provider endpoint-name="AsyncWeatherPortTypeRole_myRole" service-name="ns3:AsyncWeather"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="CountryInfoServiceSoapTypeRole_partnerRole" service-name="ns2:CountryInfo"/>
+                <provider endpoint-name="CountryInfoServiceSoap" service-name="ns5:CountryInfoService"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="RestOutboundPortTypeRole_partnerRole" service-name="ns3:WeatherOnline"/>
+                <provider endpoint-name="RestOutboundWSDL_OutboundPort" service-name="ns6:RestOutboundService"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="CustumerPort" service-name="ns7:CustumerService"/>
+                <provider endpoint-name="CustumerPortTypeRole_myRole" service-name="ns2:Custumer"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="GeoIPServiceSoapRole_partnerRole" service-name="ns2:GeoIp"/>
+                <provider endpoint-name="GeoIPServiceSoap12" service-name="ns8:GeoIPService"/>
+            </connection>
+        </connections>
+    </service-assembly>
+</jbi>

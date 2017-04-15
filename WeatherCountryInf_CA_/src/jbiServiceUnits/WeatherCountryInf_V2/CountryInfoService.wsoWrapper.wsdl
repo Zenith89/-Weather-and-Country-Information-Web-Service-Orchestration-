@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CountryInfoService.wsoWrapper" targetNamespace="http://enterprise.netbeans.org/bpel/CountryInfoService.wsoWrapper" xmlns:tns="http://enterprise.netbeans.org/bpel/CountryInfoService.wsoWrapper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns="http://www.oorsprong.org/websamples.countryinfo">
+    <import location="http://www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL" namespace="http://www.oorsprong.org/websamples.countryinfo"/>
+    <plnk:partnerLinkType name="CountryInfoServiceSoapTypeLinkType">
+        <plnk:role name="CountryInfoServiceSoapTypeRole" portType="ns:CountryInfoServiceSoapType"/>
+    </plnk:partnerLinkType>
+</definitions>

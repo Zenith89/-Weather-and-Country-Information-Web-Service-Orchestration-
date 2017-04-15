@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Custumer" targetNamespace="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types/>
+    <message name="CustumerOperationRequest">
+        <part name="IP_address" type="xsd:string"/>
+    </message>
+    <message name="CustumerOperationResponse">
+        <part name="Weather" type="xsd:string"/>
+        <part name="Country_Info" type="xsd:string"/>
+    </message>
+    <message name="CustumerOperationFault">
+        <part name="fault_msg" type="xsd:string"/>
+    </message>
+    <portType name="CustumerPortType">
+        <operation name="CustumerOperation">
+            <input name="input1" message="tns:CustumerOperationRequest"/>
+            <output name="output1" message="tns:CustumerOperationResponse"/>
+            <fault name="to_fault" message="tns:CustumerOperationFault"/>
+            <fault name="A_reply_fault" message="tns:CustumerOperationFault"/>
+            <fault name="B_reply_fault" message="tns:CustumerOperationFault"/>
+        </operation>
+    </portType>
+    <binding name="CustumerBinding" type="tns:CustumerPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="CustumerOperation">
+            <soap:operation/>
+            <input name="input1">
+                <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer"/>
+            </input>
+            <output name="output1">
+                <soap:body use="literal" namespace="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer"/>
+            </output>
+            <fault name="to_fault">
+                <soap:fault name="to_fault" use="literal" namespace="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer"/>
+            </fault>
+            <fault name="A_reply_fault">
+                <soap:fault name="A_reply_fault"/>
+            </fault>
+            <fault name="B_reply_fault">
+                <soap:fault name="B_reply_fault"/>
+            </fault>
+        </operation>
+    </binding>
+    <service name="CustumerService">
+        <port name="CustumerPort" binding="tns:CustumerBinding">
+            <soap:address location="http://localhost:${HttpDefaultPort}/CustumerService/CustumerPort"/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="Custumer">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="CustumerPortTypeRole" portType="tns:CustumerPortType"/>
+    </plnk:partnerLinkType>
+</definitions>

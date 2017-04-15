@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo" xmlns:ns2="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/CallBack" xmlns:ns3="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/AsyncWeather" xmlns:ns4="http://j2ee.netbeans.org/wsdl/CountryDetail_Information/src/Custumer" xmlns:ns5="http://j2ee.netbeans.org/wsdl/ProxyWeatherInfo/src/WeatherOnline" xmlns:ns6="http://www.webservicex.net/" xmlns:ns7="http://enterprise.netbeans.org/bpel/CountryDetailInf/ProxyWeather" xmlns:ns8="http://enterprise.netbeans.org/bpel/CountryDetailInf/countryDetailInf" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="CountryInfoServiceSoap" interface-name="ns1:CountryInfoServiceSoapType" name="endpoint1" service-name="ns1:CountryInfoService"/>
+        <endpoint endpoint-name="CallBackPort" interface-name="ns2:CallBackPortType" name="endpoint2" service-name="ns2:CallBackService"/>
+        <endpoint endpoint-name="AsyncWeatherPort" interface-name="ns3:AsyncWeatherPortType" name="endpoint3" service-name="ns3:AsyncWeatherService"/>
+        <endpoint endpoint-name="CustumerPort" interface-name="ns4:CustumerPortType" name="endpoint4" service-name="ns4:CustumerService"/>
+        <endpoint endpoint-name="RestOutboundWSDL_OutboundPort" interface-name="ns5:RestOutboundPortType" name="endpoint5" service-name="ns5:RestOutboundService"/>
+        <endpoint endpoint-name="GeoIPServiceSoap12" interface-name="ns6:GeoIPServiceSoap" name="endpoint6" service-name="ns6:GeoIPService"/>
+        <endpoint endpoint-name="GeoIPServiceSoap" interface-name="ns6:GeoIPServiceSoap" name="endpoint7" service-name="ns6:GeoIPService"/>
+        <endpoint display-name="AsyncWeather" endpoint-name="AsyncWeatherPortTypeRole_myRole" file-path="ProxyWeather.bpel" interface-name="ns3:AsyncWeatherPortType" name="endpoint8" process-name="ProxyWeather" service-name="ns7:AsyncWeather"/>
+        <endpoint display-name="Custumer" endpoint-name="CustumerPortTypeRole_myRole" file-path="WeatherCountryInf.bpel" interface-name="ns4:CustumerPortType" name="endpoint9" process-name="WeatherCountryInf" service-name="ns8:Custumer"/>
+        <endpoint display-name="CallbBack" endpoint-name="CallBackPortTypeRole_myRole" file-path="WeatherCountryInf.bpel" interface-name="ns2:CallBackPortType" name="endpoint10" process-name="WeatherCountryInf" service-name="ns8:CallbBack"/>
+        <endpoint display-name="WeatherOnline" endpoint-name="RestOutboundPortTypeRole_partnerRole" file-path="ProxyWeather.bpel" interface-name="ns5:RestOutboundPortType" name="endpoint11" process-name="ProxyWeather" service-name="ns7:WeatherOnline"/>
+        <endpoint display-name="CallBack" endpoint-name="CallBackPortTypeRole_partnerRole" file-path="ProxyWeather.bpel" interface-name="ns2:CallBackPortType" name="endpoint12" process-name="ProxyWeather" service-name="ns7:CallBack"/>
+        <endpoint display-name="CountryInfo" endpoint-name="CountryInfoServiceSoapTypeRole_partnerRole" file-path="WeatherCountryInf.bpel" interface-name="ns1:CountryInfoServiceSoapType" name="endpoint13" process-name="WeatherCountryInf" service-name="ns8:CountryInfo"/>
+        <endpoint display-name="AsyncWeather" endpoint-name="AsyncWeatherPortTypeRole_partnerRole" file-path="WeatherCountryInf.bpel" interface-name="ns3:AsyncWeatherPortType" name="endpoint14" process-name="WeatherCountryInf" service-name="ns8:AsyncWeather"/>
+        <endpoint display-name="GeoIp" endpoint-name="GeoIPServiceSoapRole_partnerRole" file-path="WeatherCountryInf.bpel" interface-name="ns6:GeoIPServiceSoap" name="endpoint15" process-name="WeatherCountryInf" service-name="ns8:GeoIp"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="WeatherCountryInf_.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="WeatherCountryInf_CA_-WeatherCountryInf_" unit-name="WeatherCountryInf_" unknown="false" x="-1" y="-1">
+            <provides endpoint="endpoint8"/>
+            <provides endpoint="endpoint9"/>
+            <provides endpoint="endpoint10"/>
+            <consumes endpoint="endpoint11"/>
+            <consumes endpoint="endpoint12"/>
+            <consumes endpoint="endpoint13"/>
+            <consumes endpoint="endpoint14"/>
+            <consumes endpoint="endpoint15"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="WeatherCountryInf_CA_-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port x="67" y="527">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/AsyncWeather.wsdl#xpointer(/definitions/service[@name='AsyncWeatherService']/port[@name='AsyncWeatherPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="448">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/CallBack.wsdl#xpointer(/definitions/service[@name='CallBackService']/port[@name='CallBackPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+                <port x="67" y="369">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/Custumer.wsdl#xpointer(/definitions/service[@name='CustumerService']/port[@name='CustumerPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint4"/>
+                    <provides endpoint="endpoint4"/>
+                </port>
+                <port x="67" y="290">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso.wsdl#xpointer(/definitions/service[@name='CountryInfoService']/port[@name='CountryInfoServiceSoap'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+                <port bindingType="soap" state="deleted" x="67" y="0">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/service[@name='GeoIPService']/port[@name='GeoIPServiceSoap'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint7"/>
+                    <provides endpoint="endpoint7"/>
+                </port>
+                <port bindingType="soap12" x="67" y="118">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/service[@name='GeoIPService']/port[@name='GeoIPServiceSoap12'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint6"/>
+                    <provides endpoint="endpoint6"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-rest-binding.jar" component-name="sun-rest-binding" description="Represents this Service Unit" name="WeatherCountryInf_CA_-sun-rest-binding" unit-name="sun-rest-binding">
+            <ports>
+                <port x="67" y="211">
+                    <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/WeatherOnline.wsdl#xpointer(/definitions/service[@name='RestOutboundService']/port[@name='RestOutboundWSDL_OutboundPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint5"/>
+                    <provides endpoint="endpoint5"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint2" provider="endpoint10" state="unchanged"/>
+        <connection consumer="endpoint12" provider="endpoint10" state="unchanged"/>
+        <connection consumer="endpoint3" provider="endpoint8" state="unchanged"/>
+        <connection consumer="endpoint14" provider="endpoint8" state="unchanged"/>
+        <connection consumer="endpoint13" provider="endpoint1" state="unchanged"/>
+        <connection consumer="endpoint11" provider="endpoint5" state="unchanged"/>
+        <connection consumer="endpoint4" provider="endpoint9" state="unchanged"/>
+        <connection consumer="endpoint15" provider="endpoint6" state="new"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/AsyncWeather.wsdl#xpointer(/definitions/portType[@name='AsyncWeatherPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/CallBack.wsdl#xpointer(/definitions/portType[@name='CallBackPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/Custumer.wsdl#xpointer(/definitions/portType[@name='CustumerPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/WeatherOnline.wsdl#xpointer(/definitions/portType[@name='RestOutboundPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso.wsdl#xpointer(/definitions/portType[@name='CountryInfoServiceSoapType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/portType[@name='GeoIPServiceSoap'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/AsyncWeather.wsdl#xpointer(/definitions/binding[@name='AsyncWeatherBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/CallBack.wsdl#xpointer(/definitions/binding[@name='CallBackBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/Custumer.wsdl#xpointer(/definitions/binding[@name='CustumerBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/WeatherOnline.wsdl#xpointer(/definitions/binding[@name='RestOutboundBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso.wsdl#xpointer(/definitions/binding[@name='CountryInfoServiceSoapBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/binding[@name='GeoIPServiceSoap'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/binding[@name='GeoIPServiceSoap12'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/AsyncWeather.wsdl#xpointer(/definitions/service[@name='AsyncWeatherService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/CallBack.wsdl#xpointer(/definitions/service[@name='CallBackService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/Custumer.wsdl#xpointer(/definitions/service[@name='CustumerService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/WeatherOnline.wsdl#xpointer(/definitions/service[@name='RestOutboundService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.oorsprong.org/websamples.countryinfo/CountryInfoService.wso.wsdl#xpointer(/definitions/service[@name='CountryInfoService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/WeatherCountryInf_V2/www.webservicex.com/geoipservice.asmx.wsdl#xpointer(/definitions/service[@name='GeoIPService'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>
